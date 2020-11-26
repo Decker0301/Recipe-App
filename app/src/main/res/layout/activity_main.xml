@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,41 +9,58 @@
             name="model"
             type="com.enclave.decker.recipeapp.ui.main.viewmodel.MainViewModel" />
     </data>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.decker.enclave.recipeapp.MainActivity">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/view_filter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Spinner
-                android:id="@+id/spRecipe"
+                android:id="@+id/sp_recipe"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/spinner_border"
+                android:spinnerMode="dropdown"/>
 
-            <Button
-                android:id="@+id/btn_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Filter" />
+<!--            <Button-->
+<!--                android:id="@+id/btn_filter"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Filter" />-->
 
             <Button
                 android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:enabled="@{!safeUnbox(model.isExecuting)}"
                 android:text="Clear" />
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/lvRecipe"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/lv_recipe"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/view_filter" />
+
+        <com.enclave.decker.recipeapp.utils.view.MovableFloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@null"
+            android:src="@android:drawable/ic_input_add"
+            app:backgroundTint="@color/green100"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

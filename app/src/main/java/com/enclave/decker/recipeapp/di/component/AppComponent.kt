@@ -2,6 +2,7 @@ package com.enclave.decker.recipeapp.di.component
 
 import com.enclave.decker.recipeapp.RecipeApplication
 import com.enclave.decker.recipeapp.di.module.AppInjectorsModule
+import com.enclave.decker.recipeapp.di.module.DataModule
 import com.enclave.decker.recipeapp.di.module.ViewModelsModule
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -14,7 +15,8 @@ import javax.inject.Singleton
     modules = [
         ViewModelsModule::class,
         AndroidSupportInjectionModule::class,
-        AppInjectorsModule::class
+        AppInjectorsModule::class,
+        DataModule::class
     ]
 )
 
