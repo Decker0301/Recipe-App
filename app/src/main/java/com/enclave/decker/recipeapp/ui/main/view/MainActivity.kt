@@ -16,12 +16,24 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding, MainViewModel>() {
     override val viewModelClass = MainViewModel::class
 
     override fun init(savedInstanceState: Bundle?) {
+        viewModel.addRecipeSuccess bindTo this::onReviewDeleteSuccess
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         setupVersionSpinner()
+
+        registerForContextMenu(binding.rvRecipe)
+
+        binding.rvRecipe.adapter = RecipeAdapter(
+            this,
+            this@MainActivity,
+            viewModel.recipes,
+//            viewModel::editRecipe,
+            viewModel::deleteRecipe
+        ){}
+
         binding.fab.setOnClickListener {
-            viewModel.saveScore()
+            viewModel.addRecipe()
         }
     }
 
@@ -40,7 +52,13 @@ class MainActivity : BaseBindingActivity<ActivityMainBinding, MainViewModel>() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val type = adapter.getItem(position)?.name.toString()
+                viewModel.filterRecipe(type)
             }
         }
+    }
+
+    private fun onReviewDeleteSuccess() {
+        viewModel.getAllRecipe()
     }
 }

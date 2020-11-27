@@ -9,7 +9,9 @@ interface RecipeDatabase {
 
     val readAll: Observable<List<Recipe>>
 
-//    fun readAllWithType(type: String): Maybe<List<Recipe>>
+    fun readAllWithType(type: String): Observable<List<Recipe>>
 
     fun addRecipe(title: String, type: String, ingredient: String, step: String): Completable
+
+    fun deleteRecipe(id: Int): Completable
 }

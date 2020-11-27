@@ -16,10 +16,10 @@ abstract class DataModule {
     companion object {
         @JvmStatic
         @Provides
-        fun provideHighScoreDatabase(context: Context): RoomRecipeDatabase = RoomRecipeDatabase.createDatabase(context)
+        fun provideRecipeDatabase(context: Context): RoomRecipeDatabase = RoomRecipeDatabase.createDatabase(context)
     }
 
     @Binds
     @Singleton
-    abstract fun highScoreRepository(storage: RoomRecipeRepository) : RecipeDatabase
+    abstract fun recipeRepository(storage: RoomRecipeRepository) : RecipeDatabase
 }

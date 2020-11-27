@@ -6,25 +6,15 @@ import com.enclave.decker.recipeapp.model.Recipe
 
 @Entity(tableName = "recipe_table")
 data class RecipeDto(
-    @PrimaryKey(autoGenerate = true) val id: Long? = null,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val title: String,
     val type: String,
     val ingredients: String,
     val steps: String
 
 ) {
-    companion object {
-
-        @JvmStatic
-        fun fromRecipeDetails(recipe: Recipe) = RecipeDto(
-            title = recipe.title.toString(),
-            type = recipe.type.toString(),
-            ingredients = recipe.ingredients.toString(),
-            steps = recipe.steps.toString()
-        )
-    }
-
     fun toRecipe() = Recipe(
+        id = id,
         title = title,
         type = type,
         ingredients = ingredients,

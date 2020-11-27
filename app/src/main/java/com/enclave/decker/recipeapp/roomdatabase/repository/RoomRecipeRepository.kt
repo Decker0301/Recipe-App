@@ -4,21 +4,19 @@ import com.enclave.decker.recipeapp.model.Recipe
 import com.enclave.decker.recipeapp.roomdatabase.RoomRecipeDatabase
 import com.enclave.decker.recipeapp.roomdatabase.entity.RecipeDto
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Observable
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class RoomRecipeRepository @Inject constructor(
-    scoreDatabase: RoomRecipeDatabase
+    recipeDatabase: RoomRecipeDatabase
 ) : RecipeDatabase {
 
-    private val highScoreDao = scoreDatabase.recipeDao()
+    private val recipeDao = recipeDatabase.recipeDao()
 
     override val readAll: Observable<List<Recipe>> = Observable.fromCallable {
-        highScoreDao.getAllRecipes().map { recipeDto ->
+        recipeDao.getAllRecipes().map { recipeDto ->
             Recipe(
+                id = recipeDto.id,
                 title = recipeDto.title,
                 type = recipeDto.type,
                 ingredients = recipeDto.ingredients,
@@ -27,19 +25,20 @@ class RoomRecipeRepository @Inject constructor(
         }
     }
 
-//    override fun readAllWithType(type: String): Maybe<List<Recipe>> = Maybe.fromCallable {
-//        highScoreDao.getRecipeWithType(type).map { recipeDto ->
-//            Recipe(
-//                title = recipeDto.title,
-//                type = recipeDto.type,
-//                ingredients = recipeDto.ingredients,
-//                steps = recipeDto.steps
-//            )
-//        }
-//    }
+    override fun readAllWithType(type: String): Observable<List<Recipe>> = Observable.fromCallable {
+        recipeDao.getRecipeWithType(type).map { recipeDto ->
+            Recipe(
+                id = recipeDto.id,
+                title = recipeDto.title,
+                type = recipeDto.type,
+                ingredients = recipeDto.ingredients,
+                steps = recipeDto.steps
+            )
+        }
+    }
 
     override fun addRecipe(title: String, type: String, ingredient: String, step: String): Completable = Completable.fromCallable {
-        highScoreDao.insertRecipe(
+        recipeDao.insertRecipe(
             RecipeDto(
                 title = title,
                 type = type,
@@ -47,10 +46,10 @@ class RoomRecipeRepository @Inject constructor(
                 steps = step
             )
         )
-        highScoreDao.getRecipeWithType(type)!!.toRecipe()
+        recipeDao.getRecipe(type)!!.toRecipe()
     }
 
-//    override fun addRecipe(new: Recipe): Completable = Completable.fromAction {
-//        highScoreDao.insertRecipe(RecipeDto.fromRecipeDetails(new))
-//    }
+    override fun deleteRecipe(id: Int): Completable = Completable.fromCallable {
+        recipeDao.deleteVenues(id)
+    }
 }
