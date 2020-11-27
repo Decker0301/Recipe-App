@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.enclave.decker.recipeapp.ui.recipedetails.viewmodel.DetailsViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llAddEditRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.decker.enclave.recipeapp.AddEditActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/title"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/etTitleRecipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enter_review_title_hint"
+            android:text="@={model.title}"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textAppearance="?android:textAppearance" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/ingredients"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/etIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:hint="@string/enter_ingredients_hint"
+            android:text="@={model.ingredient}"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textAppearance="?android:textAppearance" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/steps"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/etSteps"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:hint="@string/enter_steps_hint"
+            android:text="@={model.step}"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textAppearance="?android:textAppearance" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/type"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spTypeRecipe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> model.addRecipe()}"
+                android:text="@string/save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

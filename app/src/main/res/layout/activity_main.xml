@@ -29,17 +29,18 @@
                 android:background="@drawable/spinner_border"
                 android:spinnerMode="dropdown"/>
 
-<!--            <Button-->
-<!--                android:id="@+id/btn_filter"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Filter" />-->
+            <Button
+                android:id="@+id/btn_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> model.filterRecipe()}"
+                android:text="Filter" />
 
             <Button
                 android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:enabled="@{!safeUnbox(model.isExecuting)}"
+                android:onClick="@{() -> model.getAllRecipe()}"
                 android:text="Clear" />
 
         </LinearLayout>
@@ -58,6 +59,7 @@
             android:layout_margin="10dp"
             android:background="@null"
             android:src="@android:drawable/ic_input_add"
+            android:onClick="@{() -> model.showRecipeDetails()}"
             app:backgroundTint="@color/green100"
             app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

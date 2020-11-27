@@ -37,7 +37,11 @@ class RoomRecipeRepository @Inject constructor(
         }
     }
 
-    override fun addRecipe(title: String, type: String, ingredient: String, step: String): Completable = Completable.fromCallable {
+    override fun readAllWithId(id: Int): Observable<Recipe> = Observable.fromCallable {
+        recipeDao.getRecipeWithId(id)?.toRecipe()
+    }
+
+    override fun addRecipe(title: String, type: String, ingredient: String?, step: String?): Completable = Completable.fromCallable {
         recipeDao.insertRecipe(
             RecipeDto(
                 title = title,
@@ -47,6 +51,17 @@ class RoomRecipeRepository @Inject constructor(
             )
         )
         recipeDao.getRecipe(type)!!.toRecipe()
+    }
+
+    override fun updateRecipe(id: Int, title: String, type: String, ingredient: String?, step: String?): Completable = Completable.fromCallable {
+        recipeDao.insertRecipe(
+            RecipeDto(
+                title = title,
+                type = type,
+                ingredients = ingredient,
+                steps = step
+            )
+        )
     }
 
     override fun deleteRecipe(id: Int): Completable = Completable.fromCallable {

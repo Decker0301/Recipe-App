@@ -11,7 +11,11 @@ interface RecipeDatabase {
 
     fun readAllWithType(type: String): Observable<List<Recipe>>
 
-    fun addRecipe(title: String, type: String, ingredient: String, step: String): Completable
+    fun readAllWithId(id: Int): Observable<Recipe>
+
+    fun addRecipe(title: String, type: String, ingredient: String?, step: String?): Completable
+
+    fun updateRecipe(id: Int, title: String, type: String, ingredient: String?, step: String?): Completable
 
     fun deleteRecipe(id: Int): Completable
 }

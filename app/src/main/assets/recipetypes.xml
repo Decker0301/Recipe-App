@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <recipetypes>
     <recipetype id="1">
-        <name>All</name>
-    </recipetype>
-    <recipetype id="2">
         <name>Vegetarian</name>
     </recipetype>
-    <recipetype id="3">
+    <recipetype id="2">
         <name>Fast Food</name>
     </recipetype>
-    <recipetype id="4">
+    <recipetype id="3">
         <name>Healthy</name>
     </recipetype>
-    <recipetype id="5">
+    <recipetype id="4">
         <name>No-Cook</name>
     </recipetype>
-    <recipetype id="6">
+    <recipetype id="5">
         <name>Traditional food</name>
     </recipetype>
 </recipetypes>

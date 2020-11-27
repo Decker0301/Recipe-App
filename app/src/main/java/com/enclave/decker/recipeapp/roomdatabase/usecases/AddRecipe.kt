@@ -10,7 +10,7 @@ import javax.inject.Inject
 class AddRecipe @Inject constructor(
     private val database: RecipeDatabase
 ) : UseCase.Single<AddRecipe.RecipeAdd, Unit> {
-    data class RecipeAdd(val title: String, val type: String, val ingredient: String, val step: String)
+    data class RecipeAdd(val title: String, val type: String, val ingredient: String?, val step: String?)
 
     override fun execute(param: RecipeAdd): Single<Result<Unit>> =
         database.addRecipe(param.title, param.type, param.ingredient, param.step)

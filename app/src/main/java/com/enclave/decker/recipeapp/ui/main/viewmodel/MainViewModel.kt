@@ -15,6 +15,7 @@ import io.reactivex.Observable
 import com.enclave.decker.recipeapp.roomdatabase.base.Result
 import com.enclave.decker.recipeapp.roomdatabase.usecases.DeleteRecipe
 import com.enclave.decker.recipeapp.roomdatabase.usecases.GetFilterRecipe
+import com.enclave.decker.recipeapp.ui.main.navigator.MainNavigator.Event
 import io.reactivex.subjects.PublishSubject
 
 class MainViewModel @Inject constructor(
@@ -25,11 +26,17 @@ class MainViewModel @Inject constructor(
     private var deleteRecipe: DeleteRecipe
 ) : BaseViewModel() {
 
-    private val addRecipeSuccessSubject = PublishSubject.create<Unit>()
-    val addRecipeSuccess: Observable<Unit> = addRecipeSuccessSubject.hide()
+    private val navigationSubject = PublishSubject.create<Event>()
+    val navigation: Observable<Event> = navigationSubject.hide()
+
+    private val deleteRecipeSuccessSubject = PublishSubject.create<Unit>()
+    val deleteRecipeSuccess: Observable<Unit> = deleteRecipeSuccessSubject.hide()
 
     val recipes = MutableLiveData<List<Recipe>>()
     val isExecuting = MutableLiveData<Boolean>()
+
+    val filter = MutableLiveData<String>()
+
 
     init {
         getAllRecipe()
@@ -39,56 +46,20 @@ class MainViewModel @Inject constructor(
         compositeDisposable += getRecipe.execute(Unit)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { isExecuting.value = true }
+            .doFinally { isExecuting.value = false }
             .subscribe {
                 recipes.value = it
             }
     }
 
-    fun filterRecipe(type: String){
-        compositeDisposable += filterRecipe.execute(type)
+    fun filterRecipe(){
+        compositeDisposable += filterRecipe.execute(filter.value!!)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 recipes.value = it
             }
-    }
-
-    fun addRecipe() {
-        compositeDisposable += addRecipe.execute(
-            AddRecipe.RecipeAdd(
-                "Chocolate Cake",
-                "Fast Food",
-                "- Chocolate\n- Flour\n- Milk\n- Sugar\n- Eggs",
-                "1. Mix Eggs with Milk\n2. Mix Flour with Chocolate and Sugar\n3. Mix all together\n4. Bake for 40min"
-            )
-        )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { isExecuting.value = true }
-            .doFinally { isExecuting.value = false }
-            .subscribe(Consumer {
-                when (it) {
-                    is Result.Success -> addRecipeSuccessSubject.onNext(Unit)
-                    is Result.Error -> {
-                    }
-                }
-            })
-    }
-
-    fun editRecipe(recipe: Recipe){
-        compositeDisposable += deleteRecipe.execute(recipe.id!!)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { isExecuting.value = true }
-            .doFinally { isExecuting.value = false }
-            .subscribe(Consumer {
-                when (it) {
-                    is Result.Success -> addRecipeSuccessSubject.onNext(Unit)
-                    is Result.Error -> {
-                    }
-                }
-            })
-
     }
 
     fun deleteRecipe(recipe: Recipe){
@@ -99,10 +70,22 @@ class MainViewModel @Inject constructor(
             .doFinally { isExecuting.value = false }
             .subscribe(Consumer {
                 when (it) {
-                    is Result.Success -> addRecipeSuccessSubject.onNext(Unit)
+                    is Result.Success -> deleteRecipeSuccessSubject.onNext(Unit)
                     is Result.Error -> {
                     }
                 }
             })
+    }
+
+    fun showRecipeDetails() {
+        navigationSubject.onNext(
+            Event.NavigateRecipeDetails
+        )
+    }
+
+    fun editRecipe(recipe: Recipe){
+        navigationSubject.onNext(
+            Event.NavigateEditRecipe(recipe.id)
+        )
     }
 }

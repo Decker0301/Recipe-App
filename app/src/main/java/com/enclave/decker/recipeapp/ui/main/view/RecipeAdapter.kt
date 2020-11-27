@@ -51,7 +51,7 @@ class RecipeAdapter(
             popupMenu.setOnMenuItemClickListener(android.widget.PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId) {
                     R.id.menu_edit ->{
-//                        holder.binding.model?.let(onEditRecipeClicked)
+                        holder.binding.model?.let(onEditRecipeClicked)
                         true
                     }
                     R.id.menu_delete ->{

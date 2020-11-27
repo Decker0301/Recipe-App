@@ -11,7 +11,7 @@ interface RecipeDao {
     fun getAllRecipes(): List<RecipeDto>
 
     @Query("SELECT * FROM recipe_table WHERE id = :id")
-    fun getRecipeWithId(id: Int): List<RecipeDto>
+    fun getRecipeWithId(id: Int): RecipeDto?
 
     @Query("SELECT * FROM recipe_table WHERE type = :type")
     fun getRecipe(type: String): RecipeDto?
@@ -24,4 +24,7 @@ interface RecipeDao {
 
     @Query("DELETE FROM recipe_table WHERE id = :recipeId")
     fun deleteVenues(recipeId: Int)
+
+    @Query("UPDATE recipe_table SET title = :title, type = :type, ingredients = :ingredients, steps = :steps WHERE id = :recipeId")
+    fun updateRecipe(recipeId: Int, title: String, type: String, ingredients: String, steps: String)
 }

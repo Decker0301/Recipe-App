@@ -9,8 +9,8 @@ data class RecipeDto(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val title: String,
     val type: String,
-    val ingredients: String,
-    val steps: String
+    val ingredients: String?,
+    val steps: String?
 
 ) {
     fun toRecipe() = Recipe(
